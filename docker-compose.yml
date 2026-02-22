@@ -1,0 +1,35 @@
+name: openbao
+services:
+  openbao:
+    image: openbao/openbao:${OPENBAO_TAG}
+    networks:
+      - auth
+    deploy:
+      resources:
+        limits:
+          memory: ${OPENBAO_MEMORY_LIMIT}
+          cpus: ${OPENBAO_CPU_LIMIT}
+        reservations:
+          memory: ${OPENBAO_MEMORY_RESERVATION}
+          cpus: ${OPENBAO_CPU_RESERVATION}
+    container_name: openbao
+    environment:
+      BAO_DEV_LISTEN_ADDRESS: ${OPENBAO_LISTEN_ADDRESS}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -f http://127.0.0.1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./openbao.hcl:/etc/openbao/openbao.hcl:ro
+      - openbao_file_data:${OPENBAO_FILE_PATH}
+      - openbao_logs:${OPENBAO_LOGS_PATH}
+volumes:
+  openbao_file_data:
+  openbao_logs:
+networks:
+  auth:
