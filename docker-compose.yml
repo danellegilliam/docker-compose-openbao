@@ -13,6 +13,8 @@ services:
           memory: ${OPENBAO_MEMORY_RESERVATION}
           cpus: ${OPENBAO_CPU_RESERVATION}
     container_name: openbao
+    ports:
+      - "8200:8200"
     environment:
       BAO_DEV_LISTEN_ADDRESS: ${OPENBAO_LISTEN_ADDRESS}
       POSTGRES_USER: ${POSTGRES_USER}
