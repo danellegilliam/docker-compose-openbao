@@ -27,7 +27,7 @@ services:
     volumes:
       - ./openbao.hcl:/etc/openbao/openbao.hcl:ro
       - openbao_file_data:${OPENBAO_FILE_PATH}
-      - openbao_logs:${OPENBAO_LOGS_PATH}
+      - openbao_logs:${OPENBAO_LOGS_PATH}ß
 volumes:
   openbao_file_data:
   openbao_logs:
